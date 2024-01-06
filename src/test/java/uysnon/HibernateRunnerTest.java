@@ -3,6 +3,7 @@ package uysnon;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import org.junit.jupiter.api.Test;
+import uysnon.model.BirthDate;
 import uysnon.model.User;
 
 import java.lang.reflect.Field;
@@ -21,8 +22,7 @@ class HibernateRunnerTest {
                 .username("oleg1999")
                 .firstname("oleg")
                 .lastname("ivanov")
-                .birthDate(LocalDate.of(1999, 9, 2))
-                .age(24)
+                .birthDate(new BirthDate(LocalDate.of(1999, 9, 2)))
                 .build();
 
         String sql = """
