@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import org.junit.jupiter.api.Test;
 import uysnon.model.BirthDate;
+import uysnon.model.PersonalInfo;
 import uysnon.model.User;
 
 import java.lang.reflect.Field;
@@ -20,9 +21,11 @@ class HibernateRunnerTest {
     void checkReflectionApi() {
         User user = User.builder()
                 .username("oleg1999")
-                .firstname("oleg")
-                .lastname("ivanov")
-                .birthDate(new BirthDate(LocalDate.of(1999, 9, 2)))
+                .personalInfo(PersonalInfo.builder()
+                        .firstname("oleg")
+                        .lastname("olegov")
+                        .birthDate(new BirthDate(LocalDate.of(1999, 9, 2)))
+                        .build())
                 .build();
 
         String sql = """
