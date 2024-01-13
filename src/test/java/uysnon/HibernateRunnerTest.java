@@ -2,10 +2,13 @@ package uysnon;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Cleanup;
 import org.junit.jupiter.api.Test;
 import uysnon.model.BirthDate;
+import uysnon.model.Chat;
 import uysnon.model.PersonalInfo;
 import uysnon.model.User;
+import uysnon.model.util.HibernateUtil;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -16,6 +19,28 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkManyToMany() {
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+        Chat chat = session.get(Chat.class, 1L);
+        User user = session.get(User.class, 4L);
+        user.addChat(chat); // добавили чат в пользователя, можно было сделать наоборот, суть не меняется
+        session.getTransaction().commit(); // тут произойдет insert в таблицу users_chat
+    }
+    @Test
+    void checkChatCreation(){
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+        Chat chat = Chat.builder()
+                .name("teachers-chat")
+                .build();
+        session.persist(chat);
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkReflectionApi() {

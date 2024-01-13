@@ -73,6 +73,27 @@
 
 
 
+-- DROP TABLE users;
+-- DROP TABLE company;
+--
+-- create table company
+-- (
+--     id serial primary key ,
+--     name varchar(64) not null
+-- );
+--
+-- CREATE TABLE users
+-- (
+--     id bigserial primary key ,
+--     company_id int references company(id),
+--     username varchar(128) unique ,
+--     firstname varchar(128),
+--     lastname varchar(128),
+--     birth_date date,
+--     role varchar(32),
+--     info jsonb
+-- );
+
 DROP TABLE users;
 DROP TABLE company;
 
@@ -94,3 +115,15 @@ CREATE TABLE users
     info jsonb
 );
 
+create table chat
+(
+    id bigserial primary key ,
+    name varchar(64) unique NOT NULL
+);
+
+create table users_chat
+(
+    user_id bigint NOT NULL references users(id),
+    chat_id bigint NOT NULL references chat(id),
+    primary key (user_id, chat_id)
+);
