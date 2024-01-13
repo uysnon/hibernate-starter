@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "name")
-@ToString(exclude = "users")
+@ToString(exclude = "userChats")
 public class Chat {
 
     @Id
@@ -23,7 +23,7 @@ public class Chat {
     private String name;
 
     @Builder.Default
-    @ManyToMany(mappedBy = "chats")
-    private List<User> users = new ArrayList<>();
+    @OneToMany(mappedBy = "chat")
+    private List<UserChat> userChats = new ArrayList<>();
 
 }

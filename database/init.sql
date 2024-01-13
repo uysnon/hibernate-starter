@@ -121,9 +121,13 @@ create table chat
     name varchar(64) unique NOT NULL
 );
 
+drop table if exists users_chat;
+
 create table users_chat
 (
+    id bigserial primary key ,
     user_id bigint NOT NULL references users(id),
     chat_id bigint NOT NULL references chat(id),
-    primary key (user_id, chat_id)
+    created_at timestamp not null ,
+    created_by varchar(64) not null
 );

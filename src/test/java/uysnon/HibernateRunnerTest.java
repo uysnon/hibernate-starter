@@ -4,14 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.Cleanup;
 import org.junit.jupiter.api.Test;
-import uysnon.model.BirthDate;
-import uysnon.model.Chat;
-import uysnon.model.PersonalInfo;
-import uysnon.model.User;
+import uysnon.model.*;
 import uysnon.model.util.HibernateUtil;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,17 +19,34 @@ import static org.junit.jupiter.api.Assertions.*;
 class HibernateRunnerTest {
 
     @Test
+    void checkGetUser() {
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+        Chat chat = session.get(Chat.class, 1L);
+        User user = session.get(User.class, 4L);
+        session.getTransaction().commit();
+    }
+
+    @Test
     void checkManyToMany() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
         Chat chat = session.get(Chat.class, 1L);
         User user = session.get(User.class, 4L);
-        user.addChat(chat); // добавили чат в пользователя, можно было сделать наоборот, суть не меняется
-        session.getTransaction().commit(); // тут произойдет insert в таблицу users_chat
+        UserChat userChat = UserChat.builder()
+                .createdAt(LocalDateTime.now())
+                .createdBy("alex")
+                .build();
+        userChat.setChat(chat);
+        userChat.setUser(user);
+        session.persist(userChat);
+        session.getTransaction().commit();
     }
+
     @Test
-    void checkChatCreation(){
+    void checkChatCreation() {
         @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
@@ -75,7 +90,7 @@ class HibernateRunnerTest {
                 .collect(Collectors.joining(", "));
 
         String columnValues = Arrays.stream(declaredFields)
-                .map(field  -> "?")
+                .map(field -> "?")
                 .collect(Collectors.joining(", "));
 
         System.out.println(String.format(sql, tableName, columnNames, columnValues));

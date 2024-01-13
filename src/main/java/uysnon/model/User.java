@@ -37,15 +37,9 @@ public class User {
     @ToString.Exclude
     private Company company;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @Builder.Default
-    @ManyToMany
-    @JoinTable(name = "users_chat",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "chat_id"))
-    private List<Chat> chats = new ArrayList<>();
-
-    public void addChat(Chat chat){
-        chats.add(chat);
-        chat.getUsers().add(this);
-    }
+    @OneToMany(mappedBy = "user")
+    private List<UserChat> userChats = new ArrayList<>();
 }
