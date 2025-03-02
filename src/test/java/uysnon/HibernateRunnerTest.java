@@ -8,15 +8,13 @@ import uysnon.model.BirthDate;
 import uysnon.model.Chat;
 import uysnon.model.PersonalInfo;
 import uysnon.model.User;
-import uysnon.model.util.HibernateUtil;
+import uysnon.util.HibernateUtil;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class HibernateRunnerTest {
 
