@@ -94,8 +94,8 @@
 --     info jsonb
 -- );
 
-DROP TABLE users;
-DROP TABLE company;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS company;
 
 create table company
 (
@@ -121,7 +121,7 @@ create table chat
     name varchar(64) unique NOT NULL
 );
 
-drop table if exists users_chat;
+DROP TABLE IF EXISTS  users_chat;
 
 create table users_chat
 (

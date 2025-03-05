@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Company {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
     String name;

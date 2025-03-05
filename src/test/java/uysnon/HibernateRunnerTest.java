@@ -1,22 +1,47 @@
 package uysnon;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Cleanup;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import uysnon.model.*;
-import uysnon.model.util.HibernateUtil;
+import uysnon.util.HibernateUtil;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
 
 class HibernateRunnerTest {
+    @BeforeAll
+    public static void init() {
+        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup var session = sessionFactory.openSession();
+        session.beginTransaction();
+        var user1 = User.builder().id(1L).username("Vanya").build();
+        var user2 = User.builder().id(2L).username("Oleg").build();
+        var user3 = User.builder().id(3L).username("Maksim").build();
+        var user4 = User.builder().id(4L).username("Vladislav").build();
+        var company1 = Company.builder().id(1).name("Mail.ru").build();
+        var company2 = Company.builder().id(2).name("Yandex").build();
+        var company3 = Company.builder().id(3).name("School").build();
+        var chat = Chat.builder().id(1L).name("Kittens-chat").build();
+
+        session.createMutationQuery("delete from UserChat").executeUpdate();
+        session.createMutationQuery("delete from Chat").executeUpdate();
+        session.createMutationQuery("delete from User").executeUpdate();
+        session.createMutationQuery("delete from Company").executeUpdate();
+
+        Stream.of(user1, user2, user3, user4, company1, company2, company3, chat)
+                .forEach(session::persist);
+        session.getTransaction().commit();
+    }
 
     @Test
     void checkGetUser() {
@@ -51,6 +76,7 @@ class HibernateRunnerTest {
         @Cleanup var session = sessionFactory.openSession();
         session.beginTransaction();
         Chat chat = Chat.builder()
+                .id(101L)
                 .name("teachers-chat")
                 .build();
         session.persist(chat);

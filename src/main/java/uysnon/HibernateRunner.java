@@ -2,14 +2,13 @@ package uysnon;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import uysnon.model.Company;
 import uysnon.model.PersonalInfo;
 import uysnon.model.User;
-import uysnon.model.util.HibernateUtil;
+import uysnon.util.HibernateUtil;
 
 @Slf4j
 public class HibernateRunner {
