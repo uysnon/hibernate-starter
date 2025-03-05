@@ -17,6 +17,9 @@
         <mapping class="uysnon.model.Company"/>
         <mapping class="uysnon.model.UserChat"/>
         <mapping class="uysnon.lesson1.primarykeytypes.identity.IdentityKeyEntity"/>
+
+        <mapping class="uysnon.lesson2.joins.entity.Home"/>
+        <mapping class="uysnon.lesson2.joins.entity.Cat"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
     </session-factory>

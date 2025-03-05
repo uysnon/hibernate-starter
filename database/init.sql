@@ -131,3 +131,18 @@ create table users_chat
     created_at timestamp not null ,
     created_by varchar(64) not null
 );
+
+create table home(
+  id serial primary key,
+  address varchar(512),
+  area_in_meters int
+);
+
+create table cat
+(
+    id serial primary key,
+    age int,
+    name varchar(128),
+    color varchar(128),
+    home_id int references home(id)
+);
